@@ -22,6 +22,9 @@ type FBaseView struct {
 	gravity int // default:0 , 1,2,3, 4,5,6, 7,8,9
 }
 
+func RunOnUIThread(f func()) {
+	glib.IdleAdd(f)
+}
 func parseSize(iv IView, widget *gtk.Widget, width, height int) {
 	v := iv.getBaseView()
 	align := v.gravity % 3
@@ -74,6 +77,9 @@ func (v *FBaseView) GravityEnd() {
 	v.widget.SetHAlign(gtk.ALIGN_END)
 	v.widget.SetVAlign(gtk.ALIGN_END)
 }
-func RunOnUIThread(f func()) {
-	glib.IdleAdd(f)
+func (v *FBaseView) IsEnabled() bool {
+	return v.widget.GetSensitive()
+}
+func (v *FBaseView) IsVisible() bool {
+	return v.widget.GetVisible()
 }

@@ -55,3 +55,19 @@ func (v *FButton) GravityEnd() *FButton {
 	v.FBaseView.GravityEnd()
 	return v
 }
+func (v *FButton) Disable() *FButton {
+	v.v.SetSensitive(false)
+	return v
+}
+func (v *FButton) Enable() *FButton {
+	v.v.SetSensitive(true)
+	return v
+}
+func (v *FButton) Visible() *FButton {
+	v.v.SetVisible(true)
+	return v
+}
+func (v *FButton) Invisible() *FButton {
+	v.v.SetVisible(false)
+	return v
+}
