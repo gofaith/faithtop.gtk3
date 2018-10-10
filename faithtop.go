@@ -1,9 +1,9 @@
 package faithtop
 
 import (
-	"fmt"
+	"github.com/gotk3/gotk3/gtk"
 )
 
-func P() {
-	fmt.Println("P")
+func init() {
+	gtk.Init(nil)
 }
