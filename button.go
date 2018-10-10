@@ -94,3 +94,7 @@ func (v *FButton) MarginRight(i int) *FButton {
 	v.v.SetMarginEnd(i)
 	return v
 }
+func (v *FButton) Tooltips(s string) *FButton {
+	v.v.SetTooltipText(s)
+	return v
+}

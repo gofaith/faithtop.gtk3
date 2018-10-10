@@ -1,4 +1,5 @@
 # todos
 
 - [x]margin
-- padding
+- [x]tooltips
+- setFocusChain
