@@ -71,3 +71,26 @@ func (v *FButton) Invisible() *FButton {
 	v.v.SetVisible(false)
 	return v
 }
+func (v *FButton) MarginAll(i int) *FButton {
+	v.v.SetMarginBottom(i)
+	v.v.SetMarginEnd(i)
+	v.v.SetMarginStart(i)
+	v.v.SetMarginTop(i)
+	return v
+}
+func (v *FButton) MarginLeft(i int) *FButton {
+	v.v.SetMarginStart(i)
+	return v
+}
+func (v *FButton) MarginTop(i int) *FButton {
+	v.v.SetMarginTop(i)
+	return v
+}
+func (v *FButton) MarginBottom(i int) *FButton {
+	v.v.SetMarginBottom(i)
+	return v
+}
+func (v *FButton) MarginRight(i int) *FButton {
+	v.v.SetMarginEnd(i)
+	return v
+}

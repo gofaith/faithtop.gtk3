@@ -1,0 +1,4 @@
+# todos
+
+- [x]margin
+- padding
