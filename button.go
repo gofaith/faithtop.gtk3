@@ -5,18 +5,24 @@ import (
 )
 
 type FButton struct {
+	FBaseView
 	v *gtk.Button
 }
 
-func (v *FButton) GetView() gtk.IWidget {
-	return v.v
+func (v *FButton) GetBaseView() *FBaseView {
+	return &v.FBaseView
 }
 func Button() *FButton {
 	v, _ := gtk.ButtonNew()
 	setupWidget(&v.Widget)
 	fb := &FButton{}
 	fb.v = v
+	fb.view = v
 	return fb
+}
+func (v *FButton) Size(width, height int) *FButton {
+	v.v.SetSizeRequest(width, height)
+	return v
 }
 func (v *FButton) Text(t string) *FButton {
 	v.v.SetLabel(t)

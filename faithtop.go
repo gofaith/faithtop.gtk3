@@ -7,3 +7,7 @@ import (
 func init() {
 	gtk.Init(nil)
 }
+
+var (
+	idMap = make(map[string]interface{})
+)

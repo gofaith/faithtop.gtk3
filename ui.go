@@ -5,7 +5,7 @@ import (
 )
 
 type IView interface {
-	GetView() gtk.IWidget
+	GetBaseView() *FBaseView
 }
 
 func setupWidget(w *gtk.Widget) {
@@ -13,4 +13,9 @@ func setupWidget(w *gtk.Widget) {
 	w.SetVAlign(gtk.ALIGN_START)
 	w.SetHExpand(false)
 	w.SetVExpand(false)
+}
+
+type FBaseView struct {
+	view    gtk.IWidget
+	gravity string
 }
