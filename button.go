@@ -12,6 +12,15 @@ type FButton struct {
 func (v *FButton) getBaseView() *FBaseView {
 	return &v.FBaseView
 }
+
+func GetButtonById(id string) *FButton {
+	if v, ok := idMap[id]; ok {
+		if b, ok := v.(*FButton); ok {
+			return b
+		}
+	}
+	return nil
+}
 func Button() *FButton {
 	v, _ := gtk.ButtonNew()
 	setupWidget(&v.Widget)
@@ -20,6 +29,10 @@ func Button() *FButton {
 	fb.view = v
 	fb.widget = &v.Widget
 	return fb
+}
+func (v *FButton) SetId(id string) *FButton {
+	idMap[id] = v
+	return v
 }
 func (v *FButton) Size(width, height int) *FButton {
 	parseSize(v, &v.v.Widget, width, height)

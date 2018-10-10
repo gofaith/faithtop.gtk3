@@ -1,7 +1,7 @@
 package faithtop
 
 import (
-	"fmt"
+	"github.com/gotk3/gotk3/glib"
 	"github.com/gotk3/gotk3/gtk"
 )
 
@@ -34,12 +34,10 @@ func parseSize(iv IView, widget *gtk.Widget, width, height int) {
 				widget.SetHAlign(gtk.ALIGN_CENTER)
 			} else {
 				widget.SetHAlign(gtk.ALIGN_START)
-				fmt.Println("HAlign start")
 			}
 		} else if width == -2 {
 			widget.SetHExpand(true)
 			widget.SetHAlign(gtk.ALIGN_FILL)
-			fmt.Println("width -2")
 		}
 		width = 0
 	}
@@ -52,12 +50,10 @@ func parseSize(iv IView, widget *gtk.Widget, width, height int) {
 				widget.SetVAlign(gtk.ALIGN_CENTER)
 			} else {
 				widget.SetVAlign(gtk.ALIGN_START)
-				fmt.Println("VAlign start")
 			}
 		} else if height == -2 {
 			widget.SetVExpand(true)
 			widget.SetVAlign(gtk.ALIGN_FILL)
-			fmt.Println("height -2")
 		}
 		height = 0
 	}
@@ -77,4 +73,7 @@ func (v *FBaseView) GravityEnd() {
 	v.gravity = 5
 	v.widget.SetHAlign(gtk.ALIGN_END)
 	v.widget.SetVAlign(gtk.ALIGN_END)
+}
+func RunOnUIThread(f func()) {
+	glib.IdleAdd(f)
 }

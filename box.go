@@ -12,6 +12,14 @@ type FBox struct {
 func (v *FBox) getBaseView() *FBaseView {
 	return &v.FBaseView
 }
+func GetBoxById(id string) *FBox {
+	if v, ok := idMap[id]; ok {
+		if b, ok := v.(*FBox); ok {
+			return b
+		}
+	}
+	return nil
+}
 func VBox() *FBox {
 	v, _ := gtk.BoxNew(gtk.ORIENTATION_VERTICAL, 0)
 	setupWidget(&v.Widget)
