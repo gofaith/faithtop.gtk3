@@ -3,3 +3,5 @@
 - [x]margin
 - [x]tooltips
 - setFocusChain
+- image
+- 

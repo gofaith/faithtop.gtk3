@@ -30,16 +30,14 @@ func Button() *FButton {
 	fb.widget = &v.Widget
 	return fb
 }
+
+// ----------------------------------------------------------
 func (v *FButton) SetId(id string) *FButton {
 	idMap[id] = v
 	return v
 }
 func (v *FButton) Size(width, height int) *FButton {
 	parseSize(v, &v.v.Widget, width, height)
-	return v
-}
-func (v *FButton) Text(t string) *FButton {
-	v.v.SetLabel(t)
 	return v
 }
 func (v *FButton) OnClick(f func()) *FButton {
@@ -97,4 +95,14 @@ func (v *FButton) MarginRight(i int) *FButton {
 func (v *FButton) Tooltips(s string) *FButton {
 	v.v.SetTooltipText(s)
 	return v
+}
+
+//====================================================================
+
+func (v *FButton) Text(t string) *FButton {
+	v.v.SetLabel(t)
+	return v
+}
+func (v *FButton) GetText() string {
+	return v.v.GetLabel()
 }
