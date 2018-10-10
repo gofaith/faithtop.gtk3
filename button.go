@@ -9,7 +9,7 @@ type FButton struct {
 	v *gtk.Button
 }
 
-func (v *FButton) GetBaseView() *FBaseView {
+func (v *FButton) getBaseView() *FBaseView {
 	return &v.FBaseView
 }
 func Button() *FButton {
@@ -18,6 +18,7 @@ func Button() *FButton {
 	fb := &FButton{}
 	fb.v = v
 	fb.view = v
+	fb.widget = &v.Widget
 	return fb
 }
 func (v *FButton) Size(width, height int) *FButton {
@@ -30,5 +31,14 @@ func (v *FButton) Text(t string) *FButton {
 }
 func (v *FButton) OnClick(f func()) *FButton {
 	v.v.Connect("clicked", f)
+	return v
+}
+
+func (v *FButton) GravityCenter() *FButton {
+	v.FBaseView.GravityCenter()
+	return v
+}
+func (v *FButton) GravityEnd() *FButton {
+	v.FBaseView.GravityEnd()
 	return v
 }

@@ -62,7 +62,7 @@ func (v *FWindow) Size(width, height int) *FWindow {
 	return v
 }
 func (v *FWindow) Append(i IView) *FWindow {
-	v.v.Add(i.GetBaseView().view)
+	v.v.Add(i.getBaseView().view)
 	if v.showAfter {
 		v.Show()
 	}

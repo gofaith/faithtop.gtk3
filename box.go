@@ -9,7 +9,7 @@ type FBox struct {
 	v *gtk.Box
 }
 
-func (v *FBox) GetBaseView() *FBaseView {
+func (v *FBox) getBaseView() *FBaseView {
 	return &v.FBaseView
 }
 func VBox() *FBox {
@@ -18,6 +18,7 @@ func VBox() *FBox {
 	fb := &FBox{}
 	fb.v = v
 	fb.view = v
+	fb.widget = &v.Widget
 	return fb
 }
 func HBox() *FBox {
@@ -30,12 +31,24 @@ func HBox() *FBox {
 }
 func (v *FBox) Append(is ...IView) *FBox {
 	for _, i := range is {
-		v.v.Add(i.GetBaseView().view)
+		v.v.Add(i.getBaseView().view)
 	}
 	return v
 }
 
 func (v *FBox) Size(width, height int) *FBox {
 	parseSize(v, &v.v.Widget, width, height)
+	return v
+}
+func (v *FBox) GravityStart() *FBox {
+	v.FBaseView.GravityStart()
+	return v
+}
+func (v *FBox) GravityCenter() *FBox {
+	v.FBaseView.GravityCenter()
+	return v
+}
+func (v *FBox) GravityEnd() *FBox {
+	v.FBaseView.GravityEnd()
 	return v
 }

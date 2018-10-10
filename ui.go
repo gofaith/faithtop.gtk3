@@ -6,7 +6,7 @@ import (
 )
 
 type IView interface {
-	GetBaseView() *FBaseView
+	getBaseView() *FBaseView
 }
 
 func setupWidget(w *gtk.Widget) {
@@ -18,11 +18,12 @@ func setupWidget(w *gtk.Widget) {
 
 type FBaseView struct {
 	view    gtk.IWidget
+	widget  *gtk.Widget
 	gravity int // default:0 , 1,2,3, 4,5,6, 7,8,9
 }
 
 func parseSize(iv IView, widget *gtk.Widget, width, height int) {
-	v := iv.GetBaseView()
+	v := iv.getBaseView()
 	align := v.gravity % 3
 	if width < 0 {
 		if width == -1 {
@@ -61,4 +62,19 @@ func parseSize(iv IView, widget *gtk.Widget, width, height int) {
 		height = 0
 	}
 	widget.SetSizeRequest(width, height)
+}
+func (v *FBaseView) GravityStart() {
+	v.gravity = 3
+	v.widget.SetHAlign(gtk.ALIGN_START)
+	v.widget.SetVAlign(gtk.ALIGN_START)
+}
+func (v *FBaseView) GravityCenter() {
+	v.gravity = 4
+	v.widget.SetHAlign(gtk.ALIGN_CENTER)
+	v.widget.SetVAlign(gtk.ALIGN_CENTER)
+}
+func (v *FBaseView) GravityEnd() {
+	v.gravity = 5
+	v.widget.SetHAlign(gtk.ALIGN_END)
+	v.widget.SetVAlign(gtk.ALIGN_END)
 }
