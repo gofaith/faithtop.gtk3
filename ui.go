@@ -83,3 +83,10 @@ func (v *FBaseView) IsEnabled() bool {
 func (v *FBaseView) IsVisible() bool {
 	return v.widget.GetVisible()
 }
+func (v *FBaseView) GetWidth() int {
+	al := v.widget.GetAllocation()
+	return al.GetWidth()
+}
+func (v *FBaseView) GetHeight() int {
+	return v.widget.GetAllocation().GetHeight()
+}
