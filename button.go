@@ -9,18 +9,6 @@ type FButton struct {
 	v *gtk.Button
 }
 
-func (v *FButton) getBaseView() *FBaseView {
-	return &v.FBaseView
-}
-
-func GetButtonById(id string) *FButton {
-	if v, ok := idMap[id]; ok {
-		if b, ok := v.(*FButton); ok {
-			return b
-		}
-	}
-	return nil
-}
 func Button() *FButton {
 	v, _ := gtk.ButtonNew()
 	setupWidget(&v.Widget)
@@ -30,8 +18,20 @@ func Button() *FButton {
 	fb.widget = &v.Widget
 	return fb
 }
+func GetButtonById(id string) *FButton {
+	if v, ok := idMap[id]; ok {
+		if b, ok := v.(*FButton); ok {
+			return b
+		}
+	}
+	return nil
+}
 
 // ----------------------------------------------------------
+func (v *FButton) getBaseView() *FBaseView {
+	return &v.FBaseView
+}
+
 func (v *FButton) SetId(id string) *FButton {
 	idMap[id] = v
 	return v

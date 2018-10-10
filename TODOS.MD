@@ -2,6 +2,8 @@
 
 - [x]margin
 - [x]tooltips
-- setFocusChain
+- [x]setFocus
 - image
-- 
+- scrollview
+- listview
+
