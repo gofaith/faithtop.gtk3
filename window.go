@@ -89,11 +89,11 @@ func (v *FWindow) DeferShow() *FWindow {
 	return v
 }
 func (v *FWindow) VBox(is ...IView) *FWindow {
-	v.Append(VBox().Append(is...))
+	v.Append(VBox().Size(-2, -2).Append(is...))
 	return v
 }
 func (v *FWindow) HBox(is ...IView) *FWindow {
-	v.Append(HBox().Append(is...))
+	v.Append(HBox().Size(-2, -2).Append(is...))
 	return v
 }
 

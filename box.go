@@ -30,7 +30,12 @@ func HBox() *FBox {
 }
 func (v *FBox) Append(is ...IView) *FBox {
 	for _, i := range is {
-		v.v.PackStart(i.GetBaseView().view, false, false, 0)
+		v.v.Add(i.GetBaseView().view)
 	}
+	return v
+}
+
+func (v *FBox) Size(width, height int) *FBox {
+	parseSize(v, &v.v.Widget, width, height)
 	return v
 }

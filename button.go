@@ -21,7 +21,7 @@ func Button() *FButton {
 	return fb
 }
 func (v *FButton) Size(width, height int) *FButton {
-	v.v.SetSizeRequest(width, height)
+	parseSize(v, &v.v.Widget, width, height)
 	return v
 }
 func (v *FButton) Text(t string) *FButton {
