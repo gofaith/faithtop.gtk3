@@ -96,6 +96,13 @@ func (v *FButton) Tooltips(s string) *FButton {
 	v.v.SetTooltipText(s)
 	return v
 }
+func (v *FButton) Focus() *FButton {
+	currentFocus = v.widget
+	if currentWin != nil {
+		currentWin.SetFocus(v.widget)
+	}
+	return v
+}
 
 //====================================================================
 
@@ -104,5 +111,6 @@ func (v *FButton) Text(t string) *FButton {
 	return v
 }
 func (v *FButton) GetText() string {
-	return v.v.GetLabel()
+	s, _ := v.v.GetLabel()
+	return s
 }

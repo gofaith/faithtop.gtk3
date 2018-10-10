@@ -6,6 +6,8 @@ import (
 
 var (
 	windowCounter int
+	currentWin    *gtk.Window
+	currentFocus  *gtk.Widget
 )
 
 type FWindow struct {
@@ -61,7 +63,7 @@ func (v *FWindow) Size(width, height int) *FWindow {
 	v.v.SetDefaultSize(width, height)
 	return v
 }
-func (v *FWindow) Append(i IView) *FWindow {
+func (v *FWindow) Add(i IView) *FWindow {
 	v.v.Add(i.getBaseView().view)
 	if v.showAfter {
 		v.Show()
@@ -69,7 +71,12 @@ func (v *FWindow) Append(i IView) *FWindow {
 	return v
 }
 func (v *FWindow) Show() *FWindow {
+	currentWin = v.v
 	v.v.ShowAll()
+	if currentFocus != nil {
+		v.v.SetFocus(currentFocus)
+		currentFocus = nil
+	}
 	if windowCounter == 1 {
 		gtk.Main()
 	}
@@ -89,11 +96,11 @@ func (v *FWindow) DeferShow() *FWindow {
 	return v
 }
 func (v *FWindow) VBox(is ...IView) *FWindow {
-	v.Append(VBox().Size(-2, -2).Append(is...))
+	v.Add(VBox().Size(-2, -2).Append(is...))
 	return v
 }
 func (v *FWindow) HBox(is ...IView) *FWindow {
-	v.Append(HBox().Size(-2, -2).Append(is...))
+	v.Add(HBox().Size(-2, -2).Append(is...))
 	return v
 }
 
