@@ -45,6 +45,9 @@ func (v *FImage) Size(width, height int) *FImage {
 	v.width = width
 	v.height = height
 	parseSize(v, &v.v.Widget, width, height)
+	if width == -1 && height == -1 {
+		v.scaleType = 2
+	}
 	return v
 }
 func (v *FImage) OnClick(f func()) *FImage {
@@ -136,29 +139,36 @@ func (v *FImage) Src(url string) *FImage {
 	return v
 }
 func setImageFileSrc(v *FImage, url string) {
-	if v.alreadyAdded || v.width > 0 && v.height > 0 {
-		if v.scaleType == 0 {
-			p, _ := gdk.PixbufNewFromFileAtScale(url, v.GetWidth(), v.GetHeight(), true)
+	var setup = func() {
+		porigin, _ := gdk.PixbufNewFromFile(url)
+		var w, h int = v.GetWidth(), v.GetHeight()
+		if v.scaleType == 0 { // fitCenter
+			if v.width == -1 {
+				w = int(float64(v.GetHeight()) / float64(porigin.GetHeight()) * float64(porigin.GetWidth()))
+			}
+			if v.height == -1 {
+				h = int(float64(v.GetWidth()) / float64(porigin.GetWidth()) * float64(porigin.GetHeight()))
+			}
+			p, _ := gdk.PixbufNewFromFileAtScale(url, w, h, true)
 			v.v.SetFromPixbuf(p)
-		} else if v.scaleType == 1 {
-			p, _ := gdk.PixbufNewFromFileAtScale(url, v.GetWidth(), v.GetHeight(), false)
+		} else if v.scaleType == 1 { // fitXY
+			if v.width == -1 {
+				w = porigin.GetWidth()
+			}
+			if v.height == -1 {
+				h = porigin.GetHeight()
+			}
+			p, _ := gdk.PixbufNewFromFileAtScale(url, w, h, false)
 			v.v.SetFromPixbuf(p)
 		} else {
 			v.v.SetFromFile(url)
 		}
+	}
+	if v.alreadyAdded || v.width > 0 && v.height > 0 {
+		setup()
 		return
 	}
-	v.getBaseView().afterAppend = func() {
-		if v.scaleType == 0 {
-			p, _ := gdk.PixbufNewFromFileAtScale(url, v.GetWidth(), v.GetHeight(), true)
-			v.v.SetFromPixbuf(p)
-		} else if v.scaleType == 1 {
-			p, _ := gdk.PixbufNewFromFileAtScale(url, v.GetWidth(), v.GetHeight(), false)
-			v.v.SetFromPixbuf(p)
-		} else {
-			v.v.SetFromFile(url)
-		}
-	}
+	v.getBaseView().afterAppend = setup
 }
 func (v *FImage) OnLoad(f func()) *FImage {
 	v.onLoad = f
@@ -184,4 +194,18 @@ func (v *FImage) FlipHorizontally() {
 func (v *FImage) FlipVertically() {
 	p, _ := v.v.GetPixbuf().Flip(false)
 	v.v.SetFromPixbuf(p)
+}
+func (v *FImage) ScaleTypeFitCenter() *FImage {
+	v.scaleType = 0
+	return v
+}
+
+func (v *FImage) ScaleTypeFitXY() *FImage {
+	v.scaleType = 1
+	return v
+}
+
+func (v *FImage) ScaleTypeFitImage() *FImage {
+	v.scaleType = 2
+	return v
 }
