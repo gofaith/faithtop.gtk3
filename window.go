@@ -103,6 +103,10 @@ func (v *FWindow) HBox(is ...IView) *FWindow {
 	v.Add(HBox().Size(-2, -2).Append(is...))
 	return v
 }
+func (v *FWindow) Resizable(b bool) *FWindow {
+	v.v.SetResizable(b)
+	return v
+}
 
 // func (v *FWindow) Modal() *FWindow {
 // 	v.v.SetModal(true)

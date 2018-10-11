@@ -3,7 +3,7 @@
 - [x]margin
 - [x]tooltips
 - [x]setFocus
-- image
+- [x]image
 - scrollview
 - listview
-
+- menu

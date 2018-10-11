@@ -1,12 +1,15 @@
 package faithtop
 
 import (
+	"github.com/gotk3/gotk3/gdk"
 	"github.com/gotk3/gotk3/gtk"
 )
 
 type FImage struct {
 	FBaseView
-	v *gtk.Image
+	v         *gtk.Image
+	onLoad    func()
+	scaleType int // 0 : fitCenter , 1 : fitXY , 2 : origin
 }
 
 func Image() *FImage {
@@ -108,15 +111,60 @@ func (v *FImage) Focus() *FImage {
 //====================================================================
 func (v *FImage) Src(url string) *FImage {
 	if StartsWidth(url, "/") {
-		v.v.SetFromFile(url)
+		setImageFileSrc(v, url)
+		if v.onLoad != nil {
+			v.onLoad()
+		}
 	} else if StartsWidth(url, "file://") {
-		v.v.SetFromFile(url[len("file://"):])
+		setImageFileSrc(v, url[len("file://"):])
+		if v.onLoad != nil {
+			v.onLoad()
+		}
 	} else if StartsWidth(url, "http") {
 		CacheNetFile(url, GetCacheDir(), func(fpath string) {
 			RunOnUIThread(func() {
-				v.v.SetFromFile(fpath)
+				setImageFileSrc(v, fpath)
+				if v.onLoad != nil {
+					v.onLoad()
+				}
 			})
 		})
 	}
 	return v
+}
+func setImageFileSrc(v *FImage, url string) {
+	if v.scaleType == 0 {
+		p, _ := gdk.PixbufNewFromFileAtScale(url, v.GetWidth(), v.GetHeight(), true)
+		v.v.SetFromPixbuf(p)
+	} else if v.scaleType == 1 {
+		p, _ := gdk.PixbufNewFromFileAtScale(url, v.GetWidth(), v.GetHeight(), false)
+		v.v.SetFromPixbuf(p)
+	} else {
+		v.v.SetFromFile(url)
+	}
+}
+func (v *FImage) OnLoad(f func()) *FImage {
+	v.onLoad = f
+	return v
+}
+func (v *FImage) GetPixbuf() *gdk.Pixbuf {
+	return v.v.GetPixbuf()
+}
+func (v *FImage) SetPixbuf(p *gdk.Pixbuf) *FImage {
+	v.v.SetFromPixbuf(p)
+	return v
+}
+func (v *FImage) GetImageWidth() int {
+	return v.v.GetPixbuf().GetWidth()
+}
+func (v *FImage) GetImageHeight() int {
+	return v.v.GetPixbuf().GetHeight()
+}
+func (v *FImage) FlipHorizontally() {
+	p, _ := v.v.GetPixbuf().Flip(true)
+	v.v.SetFromPixbuf(p)
+}
+func (v *FImage) FlipVertically() {
+	p, _ := v.v.GetPixbuf().Flip(false)
+	v.v.SetFromPixbuf(p)
 }
