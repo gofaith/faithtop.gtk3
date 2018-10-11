@@ -6,10 +6,11 @@ import (
 
 type FScroll struct {
 	FBaseView
-	v *gtk.ScrolledWindow
+	v   *gtk.ScrolledWindow
+	box *FBox
 }
 
-func Scroll() *FScroll {
+func newScroll() *FScroll {
 	v, _ := gtk.ScrolledWindowNew(nil, nil)
 	setupWidget(&v.Widget)
 	fb := &FScroll{}
@@ -20,24 +21,18 @@ func Scroll() *FScroll {
 }
 
 func VScroll() *FScroll {
-	v, _ := gtk.ScrolledWindowNew(nil, nil)
-	setupWidget(&v.Widget)
-	fb := &FScroll{}
-	fb.v = v
-	fb.view = v
-	fb.widget = &v.Widget
+	fb := newScroll()
 	fb.v.SetPolicy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
+	fb.box = VBox().Size(-2, -2)
+	fb.v.Add(fb.box.widget)
 	return fb
 }
 
 func HScroll() *FScroll {
-	v, _ := gtk.ScrolledWindowNew(nil, nil)
-	setupWidget(&v.Widget)
-	fb := &FScroll{}
-	fb.v = v
-	fb.view = v
-	fb.widget = &v.Widget
+	fb := newScroll()
 	fb.v.SetPolicy(gtk.POLICY_AUTOMATIC, gtk.POLICY_NEVER)
+	fb.box = HBox().Size(-2, -2)
+	fb.v.Add(fb.box.widget)
 	return fb
 }
 
@@ -129,8 +124,6 @@ func (v *FScroll) Focus() *FScroll {
 
 //====================================================================
 func (v *FScroll) Append(is ...IView) *FScroll {
-	for _, i := range is {
-		v.v.Add(i.getBaseView().view)
-	}
+	v.box.Append(is...)
 	return v
 }

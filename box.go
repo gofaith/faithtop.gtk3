@@ -60,8 +60,17 @@ func (v *FBox) GravityEnd() *FBox {
 // ---------------------------------------------------------
 
 func (v *FBox) Append(is ...IView) *FBox {
+	var fs []func()
 	for _, i := range is {
 		v.v.Add(i.getBaseView().view)
+		i.getBaseView().alreadyAdded = true
+		if i.getBaseView().afterAppend != nil {
+			fs = append(fs, i.getBaseView().afterAppend)
+			i.getBaseView().afterAppend = nil
+		}
+	}
+	for _, f := range fs {
+		f()
 	}
 	return v
 }

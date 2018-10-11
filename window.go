@@ -65,6 +65,11 @@ func (v *FWindow) Size(width, height int) *FWindow {
 }
 func (v *FWindow) Add(i IView) *FWindow {
 	v.v.Add(i.getBaseView().view)
+	i.getBaseView().alreadyAdded = true
+	if i.getBaseView().afterAppend != nil {
+		i.getBaseView().afterAppend()
+		i.getBaseView().afterAppend = nil
+	}
 	if v.showAfter {
 		v.Show()
 	}

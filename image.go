@@ -7,9 +7,10 @@ import (
 
 type FImage struct {
 	FBaseView
-	v         *gtk.Image
-	onLoad    func()
-	scaleType int // 0 : fitCenter , 1 : fitXY , 2 : origin
+	v             *gtk.Image
+	width, height int
+	onLoad        func()
+	scaleType     int // 0 : fitCenter , 1 : fitXY , 2 : origin
 }
 
 func Image() *FImage {
@@ -41,6 +42,8 @@ func (v *FImage) SetId(id string) *FImage {
 	return v
 }
 func (v *FImage) Size(width, height int) *FImage {
+	v.width = width
+	v.height = height
 	parseSize(v, &v.v.Widget, width, height)
 	return v
 }
@@ -133,14 +136,28 @@ func (v *FImage) Src(url string) *FImage {
 	return v
 }
 func setImageFileSrc(v *FImage, url string) {
-	if v.scaleType == 0 {
-		p, _ := gdk.PixbufNewFromFileAtScale(url, v.GetWidth(), v.GetHeight(), true)
-		v.v.SetFromPixbuf(p)
-	} else if v.scaleType == 1 {
-		p, _ := gdk.PixbufNewFromFileAtScale(url, v.GetWidth(), v.GetHeight(), false)
-		v.v.SetFromPixbuf(p)
-	} else {
-		v.v.SetFromFile(url)
+	if v.alreadyAdded || v.width > 0 && v.height > 0 {
+		if v.scaleType == 0 {
+			p, _ := gdk.PixbufNewFromFileAtScale(url, v.GetWidth(), v.GetHeight(), true)
+			v.v.SetFromPixbuf(p)
+		} else if v.scaleType == 1 {
+			p, _ := gdk.PixbufNewFromFileAtScale(url, v.GetWidth(), v.GetHeight(), false)
+			v.v.SetFromPixbuf(p)
+		} else {
+			v.v.SetFromFile(url)
+		}
+		return
+	}
+	v.getBaseView().afterAppend = func() {
+		if v.scaleType == 0 {
+			p, _ := gdk.PixbufNewFromFileAtScale(url, v.GetWidth(), v.GetHeight(), true)
+			v.v.SetFromPixbuf(p)
+		} else if v.scaleType == 1 {
+			p, _ := gdk.PixbufNewFromFileAtScale(url, v.GetWidth(), v.GetHeight(), false)
+			v.v.SetFromPixbuf(p)
+		} else {
+			v.v.SetFromFile(url)
+		}
 	}
 }
 func (v *FImage) OnLoad(f func()) *FImage {
