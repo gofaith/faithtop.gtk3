@@ -37,12 +37,6 @@ func HBox() *FBox {
 	fb.view = v
 	return fb
 }
-func (v *FBox) Append(is ...IView) *FBox {
-	for _, i := range is {
-		v.v.Add(i.getBaseView().view)
-	}
-	return v
-}
 
 func (v *FBox) Size(width, height int) *FBox {
 	parseSize(v, &v.v.Widget, width, height)
@@ -64,3 +58,10 @@ func (v *FBox) GravityEnd() *FBox {
 // ---------------------------------------------------------
 
 // ---------------------------------------------------------
+
+func (v *FBox) Append(is ...IView) *FBox {
+	for _, i := range is {
+		v.v.Add(i.getBaseView().view)
+	}
+	return v
+}
