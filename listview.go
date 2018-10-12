@@ -6,7 +6,8 @@ import (
 
 type FListView struct {
 	FBaseView
-	v               *gtk.ListBox
+	v               *gtk.ScrolledWindow
+	lb              *gtk.ListBox
 	vhs             []ViewHolder
 	currentCreation int
 	createView      func(*FListView) IView
@@ -19,7 +20,7 @@ type ViewHolder struct {
 
 func VlistView(createView func(*FListView) IView, bindData func(*ViewHolder, int), getCount func() int) *FListView {
 	fb := &FListView{}
-	v, _ := gtk.ListBoxNew()
+	v, _ := gtk.ScrolledWindowNew(nil, nil)
 	setupWidget(&v.Widget)
 	fb.v = v
 	fb.view = v
@@ -27,13 +28,16 @@ func VlistView(createView func(*FListView) IView, bindData func(*ViewHolder, int
 	fb.createView = createView
 	fb.bindData = bindData
 	fb.getCount = getCount
+	fb.v.SetPolicy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
+	fb.lb, _ = gtk.ListBoxNew()
+	fb.v.Add(fb.lb)
 	for i := 0; i < getCount(); i++ {
 		fb.currentCreation = i
 		fb.vhs = append(fb.vhs, ViewHolder{vlist: make(map[string]IView)})
-		fb.v.Add(createView(fb).getBaseView().view)
+		fb.lb.Add(createView(fb).getBaseView().view)
 	}
 	fb.execBindData()
-	return fb
+	return fb.Size(-2, -2)
 }
 
 func GetListViewById(id string) *FListView {

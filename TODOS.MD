@@ -5,5 +5,5 @@
 - [x]setFocus
 - [x]image
 - [x]scrollview
-- listview
+- [x]listview scroll
 - menu
