@@ -32,6 +32,15 @@ func GetImageById(id string) *FImage {
 	return nil
 }
 
+func (vh *ViewHolder) GetImageByItemId(id string) *FImage {
+	if v, ok := vh.vlist[id]; ok {
+		if bt, ok := v.(*FImage); ok {
+			return bt
+		}
+	}
+	return nil
+}
+
 // ----------------------------------------------------------
 func (v *FImage) getBaseView() *FBaseView {
 	return &v.FBaseView
@@ -39,6 +48,13 @@ func (v *FImage) getBaseView() *FBaseView {
 
 func (v *FImage) SetId(id string) *FImage {
 	idMap[id] = v
+	return v
+}
+func (v *FImage) SetItemId(parent *FListView, id string) *FImage {
+	if parent.vhs[parent.currentCreation].vlist == nil {
+		parent.vhs[parent.currentCreation].vlist = make(map[string]IView)
+	}
+	parent.vhs[parent.currentCreation].vlist[id] = v
 	return v
 }
 func (v *FImage) Size(width, height int) *FImage {

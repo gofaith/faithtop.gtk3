@@ -27,6 +27,15 @@ func GetButtonById(id string) *FButton {
 	return nil
 }
 
+func (vh *ViewHolder) GetButtonByItemId(id string) *FButton {
+	if v, ok := vh.vlist[id]; ok {
+		if bt, ok := v.(*FButton); ok {
+			return bt
+		}
+	}
+	return nil
+}
+
 // ----------------------------------------------------------
 func (v *FButton) getBaseView() *FBaseView {
 	return &v.FBaseView
@@ -34,6 +43,13 @@ func (v *FButton) getBaseView() *FBaseView {
 
 func (v *FButton) SetId(id string) *FButton {
 	idMap[id] = v
+	return v
+}
+func (v *FButton) SetItemId(parent *FListView, id string) *FButton {
+	if parent.vhs[parent.currentCreation].vlist == nil {
+		parent.vhs[parent.currentCreation].vlist = make(map[string]IView)
+	}
+	parent.vhs[parent.currentCreation].vlist[id] = v
 	return v
 }
 func (v *FButton) Size(width, height int) *FButton {

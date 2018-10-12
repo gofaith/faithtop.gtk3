@@ -19,7 +19,12 @@ func newScroll() *FScroll {
 	fb.widget = &v.Widget
 	return fb
 }
-
+func Scroll(child IView) *FScroll {
+	fb := newScroll()
+	fb.v.SetPolicy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+	fb.v.Add(child.getBaseView().widget)
+	return fb
+}
 func VScroll() *FScroll {
 	fb := newScroll()
 	fb.v.SetPolicy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
@@ -45,6 +50,15 @@ func GetScrollById(id string) *FScroll {
 	return nil
 }
 
+func (vh *ViewHolder) GetScrollByItemId(id string) *FScroll {
+	if v, ok := vh.vlist[id]; ok {
+		if bt, ok := v.(*FScroll); ok {
+			return bt
+		}
+	}
+	return nil
+}
+
 // ----------------------------------------------------------
 func (v *FScroll) getBaseView() *FBaseView {
 	return &v.FBaseView
@@ -52,6 +66,13 @@ func (v *FScroll) getBaseView() *FBaseView {
 
 func (v *FScroll) SetId(id string) *FScroll {
 	idMap[id] = v
+	return v
+}
+func (v *FScroll) SetItemId(parent *FListView, id string) *FScroll {
+	if parent.vhs[parent.currentCreation].vlist == nil {
+		parent.vhs[parent.currentCreation].vlist = make(map[string]IView)
+	}
+	parent.vhs[parent.currentCreation].vlist[id] = v
 	return v
 }
 func (v *FScroll) Size(width, height int) *FScroll {
@@ -124,6 +145,9 @@ func (v *FScroll) Focus() *FScroll {
 
 //====================================================================
 func (v *FScroll) Append(is ...IView) *FScroll {
+	if v.box == nil {
+		return v
+	}
 	v.box.Append(is...)
 	return v
 }
