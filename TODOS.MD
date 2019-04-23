@@ -6,4 +6,5 @@
 - [x]image
 - [x]scrollview
 - [x]listview scroll
+- [x]check
 - menu
