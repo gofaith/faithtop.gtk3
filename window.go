@@ -5,28 +5,28 @@ import (
 )
 
 var (
-	windowCounter int
-	currentWin    *gtk.Window
-	currentFocus  *gtk.Widget
+	currentWin   *gtk.Window
+	currentFocus *gtk.Widget
 )
 
 type FWindow struct {
-	v         *gtk.Window
-	showAfter bool
+	v           *gtk.Window
+	showAfter   bool
+	ondestroyFn func()
 }
 
 func Win() *FWindow {
 	w, _ := gtk.WindowNew(gtk.WINDOW_TOPLEVEL)
-	setupWindow(w)
 	fw := &FWindow{}
 	fw.v = w
+	setupWindow(fw)
 	return fw
 }
 func PopupWin() *FWindow {
 	w, _ := gtk.WindowNew(gtk.WINDOW_POPUP)
-	setupWindow(w)
 	fw := &FWindow{}
 	fw.v = w
+	setupWindow(fw)
 	return fw
 }
 func TopWin() *FWindow {
@@ -35,14 +35,12 @@ func TopWin() *FWindow {
 func TopPopupWin() *FWindow {
 	return PopupWin().Top()
 }
-func setupWindow(w *gtk.Window) {
-	windowCounter++
-	w.SetDefaultSize(600, 400)
-	w.SetPosition(gtk.WIN_POS_CENTER)
-	w.Connect("destroy", func() {
-		windowCounter--
-		if windowCounter < 1 {
-			gtk.MainQuit()
+func setupWindow(fw *FWindow) {
+	fw.v.SetDefaultSize(600, 400)
+	fw.v.SetPosition(gtk.WIN_POS_CENTER)
+	fw.v.Connect("destroy", func() {
+		if fw.ondestroyFn != nil {
+			fw.ondestroyFn()
 		}
 	})
 }
@@ -82,9 +80,6 @@ func (v *FWindow) Show() *FWindow {
 		v.v.SetFocus(currentFocus)
 		currentFocus = nil
 	}
-	if windowCounter == 1 {
-		gtk.Main()
-	}
 	return v
 }
 func (v *FWindow) Close() *FWindow {
@@ -111,6 +106,26 @@ func (v *FWindow) HBox(is ...IView) *FWindow {
 func (v *FWindow) Resizable(b bool) *FWindow {
 	v.v.SetResizable(b)
 	return v
+}
+
+func (f *FWindow) OnDestroy(fn func()) *FWindow {
+	f.ondestroyFn = fn
+	return f
+}
+
+func (f *FWindow) OnCloseClicked(fn func()) *FWindow {
+	if fn == nil {
+		return f
+	}
+	f.v.Connect("delete-event", fn)
+	return f
+}
+
+func Main() {
+	gtk.Main()
+}
+func MainQuit() {
+	gtk.MainQuit()
 }
 
 // func (v *FWindow) Modal() *FWindow {
