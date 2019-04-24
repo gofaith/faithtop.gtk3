@@ -3,11 +3,19 @@
 # 安装
 
 - [Windows](#windows)
-- [Linux](#linux)
 - [Mac](#mac)
+- [Linux](#linux)
 
 ## Windows
 
-## Linux
-
 ## Mac
+
+```shell
+brew install gtk+3
+```
+
+```shell
+go get -v -tags gtk_3_18 github.com/gofaith/faithtop
+```
+
+## Linux
