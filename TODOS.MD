@@ -9,8 +9,8 @@
 - [x]check
 - [x]menu
 
-- edit
-- combo
+- [x]edit
+- [x]combo
 - clipboard
 - radio
 - statusicon
