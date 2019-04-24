@@ -11,7 +11,7 @@
 
 - [x]edit
 - [x]combo
-- clipboard
+- [x]clipboard
 - radio
 - statusicon
 - statusbar
