@@ -15,6 +15,10 @@ brew install gtk+3
 ```
 
 ```shell
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/Cellar/libffi/3.2.1/lib/pkgconfig
+```
+
+```shell
 go get -v -tags gtk_3_18 github.com/gofaith/faithtop
 ```
 
