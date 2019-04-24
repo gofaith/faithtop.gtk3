@@ -7,4 +7,17 @@
 - [x]scrollview
 - [x]listview scroll
 - [x]check
-- menu
+- [x]menu
+
+- edit
+- combo
+- clipboard
+- radio
+- statusicon
+- statusbar
+- tab
+- text
+- textarea
+- progress
+- filechooser
+- eventBox
