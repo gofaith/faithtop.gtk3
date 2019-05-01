@@ -18,13 +18,21 @@ Download [msys2](https://www.msys2.org/)
 
 Install gtk3 in msys2
 ```shell
-pacman -S mingw-w64-x86_64-gtk3 git vim
+pacman -S mingw-w64-x86_64-gtk3 git vim pkg-config gcc
 ```
 [下载太慢？添加MSYS2中国源试一试](https://github.com/gofaith/faithtop.gtk3/wiki/MSYS2%E6%BA%90%E9%85%8D%E7%BD%AE)
 
 Install Go inside msys2 directory, like `C:\msys2\opt\go`
 
-(Then make sure you can run `go` command in msys2)
+Add those lines in file `C:\msys2\etc\profile`
+
+```shell
+
+export GOROOT=/opt/go
+export GOPATH=/home/asd/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/mingw64/lib/pkgconfig
+```
 
 Install Faithtop
 ```shell
