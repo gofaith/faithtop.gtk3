@@ -13,8 +13,7 @@
 - [x]combo
 - [x]clipboard
 - [x]radio
-- statusicon
-- statusbar
+- [x]statusbar
 - tab
 - text
 - textarea

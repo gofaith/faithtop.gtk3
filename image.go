@@ -1,6 +1,8 @@
 package faithtop
 
 import (
+	"strings"
+
 	"github.com/gotk3/gotk3/gdk"
 	"github.com/gotk3/gotk3/gtk"
 )
@@ -132,17 +134,17 @@ func (v *FImage) Focus() *FImage {
 
 //====================================================================
 func (v *FImage) Src(url string) *FImage {
-	if StartsWidth(url, "/") {
+	if strings.HasPrefix(url, "/") {
 		setImageFileSrc(v, url)
 		if v.onLoad != nil {
 			v.onLoad()
 		}
-	} else if StartsWidth(url, "file://") {
+	} else if strings.HasPrefix(url, "file://") {
 		setImageFileSrc(v, url[len("file://"):])
 		if v.onLoad != nil {
 			v.onLoad()
 		}
-	} else if StartsWidth(url, "http") {
+	} else if strings.HasPrefix(url, "http") {
 		CacheNetFile(url, GetCacheDir(), func(fpath string) {
 			RunOnUIThread(func() {
 				setImageFileSrc(v, fpath)

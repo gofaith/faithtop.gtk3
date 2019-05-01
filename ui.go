@@ -24,9 +24,18 @@ type FBaseView struct {
 	alreadyAdded bool
 }
 
+func init() {
+	gtk.Init(nil)
+}
+
+var (
+	idMap = make(map[string]interface{})
+)
+
 func RunOnUIThread(f func()) {
 	glib.IdleAdd(f)
 }
+
 func parseSize(iv IView, widget *gtk.Widget, width, height int) {
 	v := iv.getBaseView()
 	align := v.gravity % 3
