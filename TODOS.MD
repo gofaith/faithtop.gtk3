@@ -14,7 +14,7 @@
 - [x]clipboard
 - [x]radio
 - [x]statusbar
-- tab
+- [x]tab
 - text
 - textarea
 - progress
