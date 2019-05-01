@@ -12,7 +12,7 @@
 - [x]edit
 - [x]combo
 - [x]clipboard
-- radio
+- [x]radio
 - statusicon
 - statusbar
 - tab
