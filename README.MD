@@ -2,7 +2,7 @@
 
 ---
 
-# 安装
+# Installation
 
 - [Windows](#windows)
 - [Mac](#mac)
@@ -51,7 +51,7 @@ go get -v -tags gtk_3_18 github.com/gofaith/faithtop
 
 ## Linux
 
-# 快速开始
+# Get Started
 
 
-# 部署
+# Deploy
