@@ -14,7 +14,7 @@ Download [msys2](https://www.msys2.org/)
 
 Install gtk3 in msys2
 ```shell
-pacman -S mingw-w64-x86_64-gtk3 git vim pkg-config gcc
+pacman -S mingw-w64-x86_64-gtk3 git vim pkg-config mingw-w64-x86_64-gcc
 ```
 [下载太慢？添加MSYS2中国源试一试](https://github.com/gofaith/faithtop.gtk3/wiki/MSYS2%E6%BA%90%E9%85%8D%E7%BD%AE)
 
