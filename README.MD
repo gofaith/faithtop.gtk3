@@ -1,8 +1,4 @@
-# Faithtop :Go语言的桌面GUI框架(基于Gtk3)
-
-- [安装](#安装)
-- [快速开始](#快速开始)
-- [部署](#部署)
+# Faithtop : GUI Framework for Go (Based on Gtk3)
 
 ---
 
