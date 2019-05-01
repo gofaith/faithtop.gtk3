@@ -30,9 +30,14 @@ export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/mingw64/lib/pkgconfig
 ```
 
+Open file `C:\msys2\mingw64\lib\pkgconfig\gdk-3.0.pc` , remove `-Wl,-luuid`,and add a line below:
+```pc
+Ldflags:-Wl,-luuid
+```
+
 Install Faithtop
 ```shell
-go get github.com/gofaith/faithtop
+go get -tags gtk_3_18 github.com/gofaith/faithtop
 ```
 
 ## Mac
