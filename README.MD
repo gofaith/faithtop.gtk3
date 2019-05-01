@@ -18,11 +18,18 @@ Download [msys2](https://www.msys2.org/)
 
 Install gtk3 in msys2
 ```shell
-pacman -S mingw-w64-x86_64-gtk3
+pacman -S mingw-w64-x86_64-gtk3 git vim
 ```
 [下载太慢？添加MSYS2中国源试一试](https://github.com/gofaith/faithtop.gtk3/wiki/MSYS2%E6%BA%90%E9%85%8D%E7%BD%AE)
 
+Install Go inside msys2 directory, like `C:\msys2\opt\go`
 
+(Then make sure you can run `go` command in msys2)
+
+Install Faithtop
+```shell
+go get github.com/gofaith/faithtop
+```
 
 ## Mac
 
